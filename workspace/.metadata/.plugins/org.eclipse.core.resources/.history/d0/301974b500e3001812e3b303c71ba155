@@ -1,0 +1,32 @@
+package pokeClone;
+
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class Game {
+	final int SCREEN_WIDTH = 960;
+	final int SCREEN_HEIGHT = 720;
+	final int TILE_SIZE = 32;
+	final int CHARACTER_W = 32;
+	final int CHARACTER_H = 32;
+	final int GAME_SPEED = 1;
+	final int MOVEMENT_DISTANCE = 2;
+
+	public static JFrame frame = new JFrame();
+	public static JPanel panel = new JPanel();
+
+	public static void main(String[] args) {
+		try {
+			BufferedImage img = ImageIO.read(new File("testing.png"));
+			Graphics g = panel.getGraphics();
+			g.drawImage(img, 100, 100, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}

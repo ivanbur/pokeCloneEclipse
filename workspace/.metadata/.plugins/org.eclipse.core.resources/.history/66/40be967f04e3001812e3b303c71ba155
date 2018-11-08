@@ -1,0 +1,18 @@
+package pokeClone;
+
+public class Sprite {
+	private int x;
+	private int y;
+	private int currentRow;
+	private int currentFrame;
+	private int numRows;
+	private int numFrames;
+	private int clipSizeWidth;
+	private int clipSizeHeight;
+	private int mapColumn;
+	private int mapRow;
+	
+	public Sprite() {
+		
+	}
+}
