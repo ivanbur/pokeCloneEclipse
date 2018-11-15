@@ -6,22 +6,19 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class Sprite {
-	private int currentRow;
-	private int currentFrame;
-	private int numRows;
-	private int numFrames;
-	private int clipSizeWidth;
-	private int clipSizeHeight;
-	private BufferedImage img;
+	protected int currentRow;
+	protected int currentFrame;
+	protected int numRows;
+	protected int numFrames;
+	protected int clipSizeWidth;
+	protected int clipSizeHeight;
+	protected ImageIcon img;
 	
 	public Sprite(String filename, int numberRows, int numberFrames, int sizeOfClipWidth, int sizeOfClipHeight) {
-		try {
-			img = ImageIO.read(new File(filename));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		img = new ImageIcon(getClass().getResource(filename));
 		
 		currentRow = 0;
 		currentFrame = 0;
@@ -32,11 +29,7 @@ public class Sprite {
 	}
 	
 	public Sprite(String filename, int numberRows, int numberFrames) {
-		try {
-			img = ImageIO.read(new File(filename));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		img = new ImageIcon(getClass().getResource(filename));
 		
 		currentRow = 0;
 		currentFrame = 0;
@@ -47,11 +40,7 @@ public class Sprite {
 	}
 	
 	public Sprite(String filename, int numberRows) {
-		try {
-			img = ImageIO.read(new File(filename));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		img = new ImageIcon(getClass().getResource(filename));
 		
 		currentRow = 0;
 		currentFrame = 0;
