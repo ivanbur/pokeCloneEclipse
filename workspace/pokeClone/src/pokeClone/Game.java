@@ -17,18 +17,17 @@ import javax.swing.JMenuItem;
 import javax.swing.Timer;
 
 public class Game implements ActionListener, KeyListener {
-	public static Game myGame;
 	
 	// Global Constants
-	public static final int FIELD_WIDTH = 600;
-	public static final int FIELD_HEIGHT = 400;
+	public static final int FIELD_WIDTH = 608;
+	public static final int FIELD_HEIGHT = 416;
 
 	// Local Constants
 	private final int TIMER_SPEED = 10;
 	private final int TIMER_DELAY = 750;
 	
-	public int mapTopRow = 0;
-	public int mapLeftColumn = 0;
+	public static int mapTopRow = 0;
+	public static int mapLeftColumn = 0;
 
 	private JFrame gameFrame;
 	private Timer timer;
@@ -74,7 +73,7 @@ public class Game implements ActionListener, KeyListener {
 	private boolean soundOn = true;
 
 	public static void main(String[] args) {
-		myGame = new Game();
+		new Game();
 	}
 
 	public Game() {
@@ -82,8 +81,6 @@ public class Game implements ActionListener, KeyListener {
 //		 playerImages.add(new ImageIcon(getClass().getResource("player" + i +
 //		 ".png")));
 //		 }
-
-		System.out.println("testing");
 
 		gameFrame = new JFrame();
 
@@ -116,12 +113,26 @@ public class Game implements ActionListener, KeyListener {
 
 		gameFrame.setVisible(true);
 		
+		for (int i = 0; i < 13; i++) {
+			for (int j = 0; j < 19; j++) {
+				tiles.add(new Tile("testing.png", 32, 32, i, j));
+			}
+		}
 		
+		timer = new Timer(TIMER_SPEED, this);
+		timer.setInitialDelay(TIMER_DELAY);
+		timer.setActionCommand("timer");
+		timer.start();
 	}
 	
 	private void drawBackground() {
 		for (Tile i : tiles) {
-			i.draw();
+			JLabel testing = new JLabel(i.img);
+			testing.setSize(i.clipSizeWidth, i.clipSizeHeight);
+			testing.setLocation((i.mapColumn - mapLeftColumn)*i.clipSizeWidth, (i.mapRow - mapTopRow)*i.clipSizeHeight);
+			testing.setVisible(true);
+			
+			gameFrame.add(testing);
 		}
 	}
 
@@ -130,6 +141,11 @@ public class Game implements ActionListener, KeyListener {
 		if (e.getActionCommand().equals("quit")) {
 			gameFrame.dispatchEvent(new WindowEvent(gameFrame, WindowEvent.WINDOW_CLOSING));
 		}
+		
+		drawBackground();
+		lblPlayer.repaint();
+		
+		gameFrame.repaint();
 	}
 
 	@Override

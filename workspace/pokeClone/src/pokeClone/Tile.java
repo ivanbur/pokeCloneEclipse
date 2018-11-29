@@ -3,11 +3,11 @@ package pokeClone;
 import javax.swing.JLabel;
 
 public class Tile extends Sprite {
-	private int mapRow;
-	private int mapColumn;
+	protected int mapRow;
+	protected int mapColumn;
 	
-	public Tile(String filename, int numberRows, int numberFrames, int sizeOfClipWidth, int sizeOfClipHeight, int mapRow, int mapColumn) {
-		super(filename, numberRows, numberFrames, sizeOfClipWidth, sizeOfClipHeight);
+	public Tile(String filename, int sizeOfClipWidth, int sizeOfClipHeight, int mapRow, int mapColumn) {
+		super(filename, 1, 1, sizeOfClipWidth, sizeOfClipHeight);
 		
 		this.mapRow = mapRow;
 		this.mapColumn = mapColumn;
@@ -15,6 +15,8 @@ public class Tile extends Sprite {
 	
 	public void draw() {
 		JLabel testing = new JLabel(super.img);
-		testing.setLocation(mapColumn - Game.myGame.mapLeftColumn, mapRow - Game.myGame.mapTopRow);
+		testing.setLocation(mapColumn - Game.mapLeftColumn, mapRow - Game.mapTopRow);
 	}
+	
+	
 }
