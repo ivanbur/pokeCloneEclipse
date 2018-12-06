@@ -17,7 +17,7 @@ import javax.swing.JMenuItem;
 import javax.swing.Timer;
 
 public class Game implements ActionListener, KeyListener {
-	
+
 	// Global Constants
 	public static final int FIELD_WIDTH = 608;
 	public static final int FIELD_HEIGHT = 416;
@@ -25,7 +25,7 @@ public class Game implements ActionListener, KeyListener {
 	// Local Constants
 	private final int TIMER_SPEED = 10;
 	private final int TIMER_DELAY = 750;
-	
+
 	public static int mapTopRow = 0;
 	public static int mapLeftColumn = 0;
 
@@ -51,11 +51,11 @@ public class Game implements ActionListener, KeyListener {
 	// dimensions of the Image
 	private ArrayList<ImageIcon> playerImages = new ArrayList<ImageIcon>();
 
-	private ImageIcon tile = new ImageIcon(getClass().getResource("testing.png"));
-	private ImageIcon player = new ImageIcon(getClass().getResource("testing.png"));
+	private ImageIcon tile = new ImageIcon(getClass().getResource("GrassTileBasic.png"));
+	private ImageIcon player = new ImageIcon(getClass().getResource("test.png"));
 
 	private JLabel lblPlayer = new JLabel(player);
-	private int playerX, playerY, playerDir = 270;
+	private int playerX = 192, playerY = 192, playerDir = 270;
 
 	private boolean pressedLeft = false, pressedRight = false, pressedSpace = false, pressedUp = false,
 			pressedDown = false;
@@ -67,6 +67,7 @@ public class Game implements ActionListener, KeyListener {
 	// 'Missile'
 	// objects that will be used throughout the game
 	private ArrayList<Tile> tiles = new ArrayList<Tile>();
+	private ArrayList<JLabel> tileLabels = new ArrayList<JLabel>();
 
 	private Font fonto = new Font("Arial", Font.BOLD, 32);
 
@@ -77,10 +78,10 @@ public class Game implements ActionListener, KeyListener {
 	}
 
 	public Game() {
-//		 for (int i = 0; i < 10; i++) {
-//		 playerImages.add(new ImageIcon(getClass().getResource("player" + i +
-//		 ".png")));
-//		 }
+		// for (int i = 0; i < 10; i++) {
+		// playerImages.add(new ImageIcon(getClass().getResource("player" + i +
+		// ".png")));
+		// }
 
 		gameFrame = new JFrame();
 
@@ -113,26 +114,42 @@ public class Game implements ActionListener, KeyListener {
 
 		gameFrame.setVisible(true);
 		
+		lblPlayer.setSize(64, 64);
+		lblPlayer.setLocation(playerX, playerY);
+		lblPlayer.setVisible(true);
+
+		gameFrame.add(lblPlayer);
+
+
 		for (int i = 0; i < 13; i++) {
 			for (int j = 0; j < 19; j++) {
-				tiles.add(new Tile("testing.png", 32, 32, i, j));
+				tiles.add(new Tile("GrassTileBasic.png", 32, 32, i, j));
+
+				Tile temp = tiles.get(tiles.size() - 1);
+
+				tileLabels.add(new JLabel(temp.img));
+				tileLabels.get(tileLabels.size() - 1).setSize(temp.clipSizeWidth, temp.clipSizeHeight);
+				tileLabels.get(tileLabels.size() - 1).setLocation((temp.mapColumn - mapLeftColumn) * temp.clipSizeWidth,
+						(temp.mapRow - mapTopRow) * temp.clipSizeHeight);
+				tileLabels.get(tileLabels.size() - 1).setVisible(true);
+
+				gameFrame.add(tileLabels.get(tileLabels.size() - 1));
 			}
 		}
-		
+
 		timer = new Timer(TIMER_SPEED, this);
 		timer.setInitialDelay(TIMER_DELAY);
 		timer.setActionCommand("timer");
 		timer.start();
+
+		System.out.println(playerX + ", " + playerY);
+		
+		gameFrame.addKeyListener(this);
 	}
-	
+
 	private void drawBackground() {
-		for (Tile i : tiles) {
-			JLabel testing = new JLabel(i.img);
-			testing.setSize(i.clipSizeWidth, i.clipSizeHeight);
-			testing.setLocation((i.mapColumn - mapLeftColumn)*i.clipSizeWidth, (i.mapRow - mapTopRow)*i.clipSizeHeight);
-			testing.setVisible(true);
-			
-			gameFrame.add(testing);
+		for (int i = 0; i < tileLabels.size(); i++) {
+			tileLabels.get(i).setIcon(tiles.get(i).img);
 		}
 	}
 
@@ -141,10 +158,29 @@ public class Game implements ActionListener, KeyListener {
 		if (e.getActionCommand().equals("quit")) {
 			gameFrame.dispatchEvent(new WindowEvent(gameFrame, WindowEvent.WINDOW_CLOSING));
 		}
-		
+
+		if (pressedRight) {
+			// animation goes here
+			Game.mapLeftColumn++;
+		}
+
+		if (pressedLeft) {
+			// animation goes here
+			Game.mapLeftColumn--;
+		}
+
+		if (pressedUp) {
+			// animation goes here
+			Game.mapTopRow--;
+		}
+
+		if (pressedDown) {
+			// animation goes here
+			Game.mapTopRow++;
+		}
+
 		drawBackground();
-		lblPlayer.repaint();
-		
+
 		gameFrame.repaint();
 	}
 
@@ -155,11 +191,43 @@ public class Game implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
 
+		if (key == KeyEvent.VK_RIGHT) {
+			pressedRight = true;
+		}
+
+		if (key == KeyEvent.VK_UP) {
+			pressedUp = true;
+		}
+
+		if (key == KeyEvent.VK_DOWN) {
+			pressedDown = true;
+		}
+
+		if (key == KeyEvent.VK_LEFT) {
+			pressedLeft = true;
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		int key = e.getKeyCode();
 
+		if (key == KeyEvent.VK_RIGHT) {
+			pressedRight = false;
+		}
+
+		if (key == KeyEvent.VK_UP) {
+			pressedUp = false;
+		}
+
+		if (key == KeyEvent.VK_DOWN) {
+			pressedDown = false;
+		}
+
+		if (key == KeyEvent.VK_LEFT) {
+			pressedLeft = false;
+		}
 	}
 }

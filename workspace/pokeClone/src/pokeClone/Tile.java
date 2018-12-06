@@ -1,5 +1,6 @@
 package pokeClone;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class Tile extends Sprite {
@@ -18,5 +19,8 @@ public class Tile extends Sprite {
 		testing.setLocation(mapColumn - Game.mapLeftColumn, mapRow - Game.mapTopRow);
 	}
 	
+	public void setImg(String filename) {
+		super.img = new ImageIcon(getClass().getResource(filename));
+	}
 	
 }
