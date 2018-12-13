@@ -1,0 +1,68 @@
+package pokeClone;
+
+public class Player extends Sprite {
+	private int x;
+	private int y;
+	private int mapRow;
+	private int mapColumn;
+
+	public Player(String filename, int x, int y, int mapRow, int mapColumn, int numberRows, int numberFrames,
+			int sizeOfClipWidth, int sizeOfClipHeight) {
+		super(filename, numberRows, numberFrames, sizeOfClipWidth, sizeOfClipHeight);
+	}
+
+	public void moveRight() {
+		super.setRow(0);
+
+		for (int i = 0; i < super.numFrames; i++) {
+			super.setFrame(i);
+			x += 8;
+		}
+
+		mapColumn++;
+		Game.mapLeftColumn++;
+	}
+
+	public void moveLeft() {
+		mapColumn--;
+		Game.mapLeftColumn--;
+	}
+
+	public void moveUp() {
+		mapRow--;
+		Game.mapTopRow--;
+	}
+
+	public void moveDown() {
+		mapRow++;
+		Game.mapTopRow++;
+	}
+
+	public void move(String direction) {
+		if (direction.equals("right")) {
+			moveRight();
+		} else if (direction.equals("left")) {
+			moveLeft();
+		} else if (direction.equals("up")) {
+			moveUp();
+		} else if (direction.equals("down")) {
+			moveRight();
+		}
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setX(int setX) {
+		x = setX;
+	}
+
+	public void setY(int setY) {
+		y = setY;
+	}
+}

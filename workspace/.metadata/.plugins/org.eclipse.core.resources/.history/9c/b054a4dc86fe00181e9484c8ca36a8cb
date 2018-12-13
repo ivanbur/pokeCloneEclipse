@@ -1,0 +1,117 @@
+package pokeClone;
+
+import javax.swing.JLabel;
+
+public class Player extends Sprite {
+	private int x;
+	private int y;
+	private int mapRow;
+	private int mapColumn;
+	private JLabel playerLabel;
+	private boolean currentlyMoving = false;
+
+	public Player(String filename, int x, int y, int mapRow, int mapColumn, int numberRows, int numberFrames,
+			int sizeOfClipWidth, int sizeOfClipHeight) {
+		super(filename, numberRows, numberFrames, sizeOfClipWidth, sizeOfClipHeight);
+		playerLabel = new JLabel(super.img);
+		this.x = x;
+		this.y = y;
+		this.mapRow = mapRow;
+		this.mapColumn = mapColumn;
+	}
+
+	public void animate() {
+		super.setFrame((super.getCurrentFrame() + 1) % super.numFrames);
+	}
+
+	public void moveRight() {
+		super.setRow(0);
+		
+		x += 8;
+		
+		animate();
+		refreshLabel();
+
+		mapColumn++;
+		Game.mapLeftColumn++;
+	}
+
+	public void moveLeft() {
+		super.setRow(1);
+		
+		x -= 8;
+		
+		animate();
+		refreshLabel();
+
+		mapColumn--;
+		Game.mapLeftColumn--;
+	}
+
+	public void moveUp() {
+		super.setRow(3);
+
+		y -= 8;
+		
+		animate();
+		refreshLabel();
+
+		mapRow--;
+		Game.mapTopRow--;
+	}
+
+	public void moveDown() {
+		super.setRow(4);
+
+		y += 8;
+		
+		animate();
+		refreshLabel();
+
+		mapRow++;
+		Game.mapTopRow++;
+	}
+
+	public void move(String direction) {
+		if (direction.equals("right")) {
+			moveRight();
+		} else if (direction.equals("left")) {
+			moveLeft();
+		} else if (direction.equals("up")) {
+			moveUp();
+		} else if (direction.equals("down")) {
+			moveRight();
+		}
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setX(int setX) {
+		x = setX;
+		refreshLabel();
+	}
+
+	public void setY(int setY) {
+		y = setY;
+		refreshLabel();
+	}
+
+	public JLabel getLabel() {
+		return playerLabel;
+	}
+
+	public void setLabel(JLabel theLabel) {
+		playerLabel = theLabel;
+	}
+
+	private void refreshLabel() {
+		playerLabel.setLocation(x, y);
+		playerLabel.setSize(super.clipSizeWidth, super.clipSizeHeight);
+	}
+}

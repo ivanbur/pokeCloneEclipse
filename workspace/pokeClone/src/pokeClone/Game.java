@@ -52,14 +52,16 @@ public class Game implements ActionListener, KeyListener {
 	private ArrayList<ImageIcon> playerImages = new ArrayList<ImageIcon>();
 
 	private ImageIcon tile = new ImageIcon(getClass().getResource("GrassTileBasic.png"));
-	private ImageIcon player = new ImageIcon(getClass().getResource("test.png"));
+	private ImageIcon playerIMG = new ImageIcon(getClass().getResource("test.png"));
 
-	private JLabel lblPlayer = new JLabel(player);
+	private JLabel lblPlayer = new JLabel(playerIMG);
 	private int playerX = 192, playerY = 192, playerDir = 270;
 
 	private boolean pressedLeft = false, pressedRight = false, pressedSpace = false, pressedUp = false,
 			pressedDown = false;
 	private boolean controlKeyPressed = false;
+	
+	private Player player = new Player("test copy.png", playerX, playerY, mapTopRow + 5, mapLeftColumn + 5, 4, 4, 32, 32);
 
 	private Font aFont = new Font("Helvetica", Font.BOLD, 24);
 
@@ -78,6 +80,8 @@ public class Game implements ActionListener, KeyListener {
 	}
 
 	public Game() {
+		lblPlayer = player.getLabel();
+		
 		// for (int i = 0; i < 10; i++) {
 		// playerImages.add(new ImageIcon(getClass().getResource("player" + i +
 		// ".png")));
@@ -141,8 +145,6 @@ public class Game implements ActionListener, KeyListener {
 		timer.setInitialDelay(TIMER_DELAY);
 		timer.setActionCommand("timer");
 		timer.start();
-
-		System.out.println(playerX + ", " + playerY);
 		
 		gameFrame.addKeyListener(this);
 	}
@@ -160,23 +162,19 @@ public class Game implements ActionListener, KeyListener {
 		}
 
 		if (pressedRight) {
-			// animation goes here
-			Game.mapLeftColumn++;
+			player.moveRight();
 		}
 
 		if (pressedLeft) {
-			// animation goes here
-			Game.mapLeftColumn--;
+			player.moveLeft();
 		}
 
 		if (pressedUp) {
-			// animation goes here
-			Game.mapTopRow--;
+			player.moveUp();
 		}
 
 		if (pressedDown) {
-			// animation goes here
-			Game.mapTopRow++;
+			player.moveDown();
 		}
 
 		drawBackground();
